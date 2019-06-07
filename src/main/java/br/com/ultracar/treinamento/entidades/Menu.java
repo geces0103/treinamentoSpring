@@ -35,12 +35,12 @@ public class Menu implements Serializable{
 	
 	@NotBlank
 	@Size(min = 5, max =45)
-	@Column(name = "tp_icone", nullable = false)
+	@Column(name = "tp_icone")
 	private String icone;
 	
 	@NotBlank
 	@Size(min = 5, max =45)
-	@Column(name = "tp_indice", nullable = false)
+	@Column(name = "tp_indice")
 	private String indice;
 
 	public Long getId() {
