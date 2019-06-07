@@ -64,6 +64,9 @@ public class Usuario implements Serializable{
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario")
 	private Set<PermissaoAcesso> permissoesAcesso = new HashSet<>();
 	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario")
+	private Set<GrupoAcesso> grupoAcesso = new HashSet<>();
+	
 	@Transient
 	private String token;
 	
@@ -131,6 +134,12 @@ public class Usuario implements Serializable{
 		this.permissoesAcesso = permissoesAcesso;
 	}
 
+	public Set<GrupoAcesso> getGrupoAcesso() {
+		return grupoAcesso;
+	}
 
+	public void setGrupoAcesso(Set<GrupoAcesso> grupoAcesso) {
+		this.grupoAcesso = grupoAcesso;
+	}
 	
 }

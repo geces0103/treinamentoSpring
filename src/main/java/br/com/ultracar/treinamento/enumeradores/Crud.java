@@ -1,6 +1,6 @@
 package br.com.ultracar.treinamento.enumeradores;
 
-public enum Operacao {
+public enum Crud {
 
 	INCLUIR, ALTERAR, EXCLUIR, VISUALIZAR;
 	
