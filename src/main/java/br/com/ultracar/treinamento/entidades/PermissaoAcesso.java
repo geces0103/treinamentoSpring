@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,37 +23,39 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import br.com.ultracar.treinamento.enumeradores.Situacao;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "tb_permissao_acesso")
-public class PermissaoAcesso implements Serializable{
+public class PermissaoAcesso implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "permissao_sequence")
 	@SequenceGenerator(name = "permissao_sequence", sequenceName = "permissao_id_sequence", allocationSize = 1)
 	@Column(name = "id_permissao", nullable = false)
 	private Long id;
-	
+
+	@NotNull
+	@JoinColumn(name = "ID_USUARIO", nullable = false, foreignKey = @ForeignKey(name = "fk_permissao_acesso_usuario"))
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
-	
+
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name = "en_situacao", nullable = false)
 	private Situacao situacao;
 
 	@NotNull
+	@JoinColumn(name = "ID_GRUPO_ACESSO", nullable = false, foreignKey = @ForeignKey(name = "fk_permissao_acesso_grupo_acesso"))
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_grupoAcesso", nullable = false)
-	private GrupoAcesso grupoAcesso ;
-	
+	private GrupoAcesso grupoAcesso;
+
+	@JoinTable(name = "TB_PERMISSAO_ACESSO_OPERACAO", joinColumns = { 
+	@JoinColumn(name = "ID_PERMISSAO_ACESSO", foreignKey = @ForeignKey(name = "fk_operacao_permissao_acesso_operacao")) }, inverseJoinColumns = { 
+	@JoinColumn(name = "ID_OPERACAO", foreignKey = @ForeignKey(name = "fk_permissao_acesso_permissao_acesso_operacao")) })
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "tb_permissao_acesso_operacao",
-		joinColumns = {@JoinColumn(name= "id_operacao")},
-		inverseJoinColumns = {@JoinColumn(name = "id_permissao_acesso")})
 	private Set<Operacao> operacoes = new HashSet<>();
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -84,5 +87,5 @@ public class PermissaoAcesso implements Serializable{
 	public void setGrupoAcesso(GrupoAcesso grupoAcesso) {
 		this.grupoAcesso = grupoAcesso;
 	}
-	
+
 }

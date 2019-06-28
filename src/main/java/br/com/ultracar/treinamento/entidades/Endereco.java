@@ -6,9 +6,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -44,6 +48,12 @@ public class Endereco implements Serializable{
 	@Column(name = "en_tipo_local", length = 10, nullable = false)
 	private TipoLocal tipoLocal;
 
+	@NotNull
+	@JoinColumn(name = "ID_BAIRRO", nullable = false, foreignKey = @ForeignKey(name = "fk_endereco_bairro"))
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Bairro bairro;
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -82,6 +92,14 @@ public class Endereco implements Serializable{
 
 	public void setTipoLocal(TipoLocal tipoLocal) {
 		this.tipoLocal = tipoLocal;
+	}
+	
+	public Bairro getBairro() {
+		return bairro;
+	}
+
+	public void setBairro(Bairro bairro) {
+		this.bairro = bairro;
 	}
 	
 }	

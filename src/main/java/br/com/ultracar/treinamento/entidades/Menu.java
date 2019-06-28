@@ -50,8 +50,8 @@ public class Menu implements Serializable{
 	private String indice;
 	
 	@NotNull
+	@JoinColumn(name = "ID_PERMISSAO_ACESSO", foreignKey = @ForeignKey(name = "fk_menu_permissao_acesso"), nullable = false)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_permissao_acesso", nullable = false)
 	private PermissaoAcesso permissaoAcesso;
 	
 	@OneToOne(fetch = FetchType.LAZY)

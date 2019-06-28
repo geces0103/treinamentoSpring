@@ -13,29 +13,32 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@SuppressWarnings("serial")
-@Table(name = "tb_cidade")
-public class Cidade implements Serializable{
+@Table(name = "TB_BAIRRO")
+public class Bairro implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cidade_sequence")
-	@SequenceGenerator(name = "cidade_sequence", sequenceName = "cidade_id_sequence", allocationSize = 1)
-	@Column(name = "id_cidade", nullable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bairro_sequence")
+	@SequenceGenerator(name = "bairro_sequence", sequenceName = "bairro_id_sequence", allocationSize = 1)
+	@Column(name = "ID_BAIRRO", nullable = false)
 	private Long id;
 	
-	@Size(min = 5, max = 38)
-	@Column(name = "ds_nome", length = 38, nullable = false)
+	@NotBlank
+	@Column(name = "DS_NOME", length = 100, nullable = false)
+	@Size(max = 100)
 	private String nome;
-
-	@NotNull
-	@JoinColumn(name = "ID_ESTADO", nullable = false, foreignKey = @ForeignKey(name = "fk_cidade_estado"))
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Estado estado;
 	
+	@NotNull
+	@JoinColumn(name = "ID_CIDADE", nullable = false, foreignKey = @ForeignKey(name = "fk_bairro_cidade"))
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Cidade cidade;
+
 	public Long getId() {
 		return id;
 	}
@@ -51,5 +54,12 @@ public class Cidade implements Serializable{
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
+	public Cidade getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(Cidade cidade) {
+		this.cidade = cidade;
+	}
 }
