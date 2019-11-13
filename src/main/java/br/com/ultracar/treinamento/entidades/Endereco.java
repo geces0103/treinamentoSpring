@@ -1,6 +1,8 @@
 package br.com.ultracar.treinamento.entidades;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -37,9 +40,6 @@ public class Endereco implements Serializable{
 	@Column(name = "ds_logradouro", length = 128, nullable = false)
 	private String logradouro;
 	
-	@Column(name = "nm_numero")
-	private Integer numero;
-	
 	@Column(name = "ds_complemento", length = 255)
 	private String complemento;
 	
@@ -48,11 +48,16 @@ public class Endereco implements Serializable{
 	@Column(name = "en_tipo_local", length = 10, nullable = false)
 	private TipoLocal tipoLocal;
 
-	@NotNull
-	@JoinColumn(name = "ID_BAIRRO", nullable = false, foreignKey = @ForeignKey(name = "fk_endereco_bairro"))
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Bairro bairro;
+	@ManyToMany(mappedBy = "enderecos", fetch = FetchType.LAZY)
+	private Set<Bairro> bairros = new HashSet<>();
 	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "enderecos")
+	private Set<Cep> ceps = new HashSet<>();
+	
+	@NotNull
+	@JoinColumn(name = "ID_NUMERO", nullable = false, foreignKey = @ForeignKey(name = "fk_numero_endereco"))
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Numero numero;
 	
 	public Long getId() {
 		return id;
@@ -70,14 +75,6 @@ public class Endereco implements Serializable{
 		this.logradouro = logradouro;
 	}
 
-	public Integer getNumero() {
-		return numero;
-	}
-
-	public void setNumero(Integer numero) {
-		this.numero = numero;
-	}
-
 	public String getComplemento() {
 		return complemento;
 	}
@@ -93,13 +90,28 @@ public class Endereco implements Serializable{
 	public void setTipoLocal(TipoLocal tipoLocal) {
 		this.tipoLocal = tipoLocal;
 	}
-	
-	public Bairro getBairro() {
-		return bairro;
+
+	public Set<Bairro> getBairros() {
+		return bairros;
 	}
 
-	public void setBairro(Bairro bairro) {
-		this.bairro = bairro;
+	public void setBairros(Set<Bairro> bairros) {
+		this.bairros = bairros;
 	}
-	
+
+	public Set<Cep> getCeps() {
+		return ceps;
+	}
+
+	public void setCeps(Set<Cep> ceps) {
+		this.ceps = ceps;
+	}
+
+	public Numero getNumero() {
+		return numero;
+	}
+
+	public void setNumero(Numero numero) {
+		this.numero = numero;
+	}
 }	

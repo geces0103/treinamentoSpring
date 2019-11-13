@@ -1,7 +1,10 @@
 package br.com.ultracar.treinamento.entidades;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -38,6 +43,12 @@ public class Bairro implements Serializable {
 	@JoinColumn(name = "ID_CIDADE", nullable = false, foreignKey = @ForeignKey(name = "fk_bairro_cidade"))
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Cidade cidade;
+	
+	@JoinTable(name = "TB_ENDERECO_BAIRRO", joinColumns = { 
+			@JoinColumn(name = "ID_BAIRRO", foreignKey = @ForeignKey(name = "fk_endereco_bairro")) }, inverseJoinColumns = { 
+			@JoinColumn(name = "ID_ENDERECO", foreignKey = @ForeignKey(name = "fk_bairro_endereco")) })
+			@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Endereco> enderecos = new HashSet<>();
 
 	public Long getId() {
 		return id;

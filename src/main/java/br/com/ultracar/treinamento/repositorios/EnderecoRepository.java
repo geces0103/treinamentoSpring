@@ -13,7 +13,7 @@ import br.com.ultracar.treinamento.enumeradores.Crud;
 @Repository
 public interface EnderecoRepository extends JpaRepository<Endereco, Long> {
 
-	@Async
-	@Query("Select s From Servico s " + "Inner Join s.operacao o " + "o.tipoOperacao = :tipoOperacao")
-	public List<Endereco> findByTipoOperacao(Crud tipoOperacao);
+//	@Async
+//	@Query("Select s From Servico s " + "Inner Join s.operacao o " + "o.tipoOperacao = :tipoOperacao")
+//	public List<Endereco> findByTipoOperacao(Crud tipoOperacao);
 }

@@ -27,7 +27,7 @@ public class Solicitante implements Serializable{
 	private Long id;
 	
 	@NotNull
-	@JoinColumn(name = "ID_ENDERECO", nullable = false, foreignKey = @ForeignKey(name = "fk_solicitante_endereco"))
+	@JoinColumn(name = "id_endereco", nullable = false, foreignKey = @ForeignKey(name = "fk_solicitante_endereco"))
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Endereco endereco;
 
